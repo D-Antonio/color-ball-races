@@ -82,11 +82,11 @@ var objeto = [
 
 ];
 
-	var pantalla = document.getElementById('pantalla'), pctx = pantalla.getContext('2d');
-	var mapa = document.getElementById('mapa'), mctx = mapa.getContext('2d');
-	var fondo = document.getElementById('fondo'), fctx = fondo.getContext('2d');
+	const pantalla = document.getElementById('pantalla'), pctx = pantalla.getContext('2d');
+	const mapa = document.getElementById('mapa'), mctx = mapa.getContext('2d');
+	const fondo = document.getElementById('fondo'), fctx = fondo.getContext('2d');
 	var index0;
-	var canvas = document.getElementById('canvas'), keydown = [], ctx = canvas.getContext('2d');
+	const canvas = document.getElementById('canvas'), keydown = [], ctx = canvas.getContext('2d');
 	var ws;
 	var veloz = 5;
 	var id = null;
@@ -104,15 +104,15 @@ var objeto = [
 	var r = []; 
 	var arriba_ = false;
 	var frameCount = 0, currentFps = 0, lasFrame = new Date().getTime(); //glovales para calcular los FPS
-	var mm = new Image();
+	const mm = new Image();
 		mm.src = "m.png";
-	var up = new Image();
+	const up = new Image();
 		up.src = "v.png";
-	var oo = new Image();
+	const oo = new Image();
 		oo.src = "o.png";
-	var cc = new Image();
+	const cc = new Image();
 		cc.src = "c.png";
-	var limo = new Image();
+	const limo = new Image();
 		limo.src = "limo.png";
 
 	Bloque = function(x, y, w, h, t) {
@@ -125,27 +125,12 @@ var objeto = [
   };
 
 	Bloque.prototype = {
-		tocar:function(x, y) {
-	      if (x < ((this.x*20)/div) || x > ((this.x*20)/div) + ((this.w * 20)/div) || y < ((this.y*20)/div) || y > ((this.y*20)/div) + ((this.h * 20)/div)) {
-	        return false;
-	      }
-	      return true;
-	  	}
+		tocar: (x, y) => (x < ((this.x * 20) / div) || x > ((this.x * 20) / div) + ((this.w * 20) / div) || y < ((this.y * 20) / div) || y > ((this.y * 20) / div) + ((this.h * 20) / div)) ? false : true
 	};
 
 	Btn.prototype = {
-		containsPoint:function(x, y) {
-      		if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) {
-        		return false;
-      		}
-      		return true;
-    	},
-    	tocar:function(x, y) {
-	      if (x < ((this.x*20)/div) || x > ((this.x*20)/div) + ((this.width * 20)/div) || y < ((this.y*20)/div) || y > ((this.y*20)/div) + ((this.height * 20)/div)) {
-	        return false;
-	      }
-	      return true;
-	  	}
+		containsPoint: (x, y) => (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) ? false : true,
+		tocar: (x, y) => (x < ((this.x * 20) / div) || x > ((this.x * 20) / div) + ((this.width * 20) / div) || y < ((this.y * 20) / div) || y > ((this.y * 20) / div) + ((this.height * 20) / div)) ? false : true
 	};
 
 
@@ -171,25 +156,8 @@ var objeto = [
 			** quiere decir que mas avanzado va en el juego
 			*/ 
 
-			r.sort(function(a, b){
-				if (a.m > b.m) {
-					return -1;
-				}
-				if (a.m < b.m) {
-					return 1;
-				}
-				return 0;
-			});
-
-			r.sort(function(a, b){
-				if (a.b > b.b) {
-					return -1;
-				}
-				if (a.b < b.b) {
-					return 1;
-				}
-				return 0;
-			});
+			r.sort((a, b) => (a.m > b.m) ? -1 : (a.m < b.m) ? 1 : 0);
+			r.sort((a, b) => (a.b > b.b) ? -1 : (a.b < b.b) ? 1 : 0);
 
 			// Mostrar en pantalla los resultados del podio
 			document.getElementById('r').innerHTML=''; // Limpia el elemento 
@@ -369,9 +337,7 @@ var objeto = [
 			} game.bloque[i].t = 1; game.newMap(false);
 		},
 
-		getNumRand: function(min, max) {       
-		    return Math.round(Math.random()*(max-min)+parseInt(min));
-		},
+		getNumRand: (min, max) => Math.round(Math.random() * (max - min) + parseInt(min)),
 
 		msg: function(ico, l){
 			//if(l==1) toastr.error('<b style="color: #e0ff00; font-size: 5vh;"><i class="fas '+ico+'"></i></b>', '<i class="border border-white rounded-circle fas fa-circle fa-fw" style="color: #6664ff"></i> <b>Periky</b>', {"positionClass": "toast-top-left"});
@@ -437,10 +403,7 @@ var objeto = [
 			
 		},
 
-		round: function(num){
-			var m = Number((Math.abs(num) * 100).toPrecision(15));
-    		return Math.abs(Math.round(m) / 100 * Math.sign(num));
-		},
+		round: (num) => Math.abs(Math.round(Number((Math.abs(num) * 100).toPrecision(15))) / 100 * Math.sign(num)),
 
 		dibujar: function(objeto) {
 			//if (objeto.b != null) {
@@ -492,9 +455,7 @@ var objeto = [
 
 		soket: function() {
 			ws = new WebSocket("ws://achex.ca:4010");
-			ws.onopen = function() {
-				ws.send('{"setID":"ddddddd","passwd":"123@Cuatro"}');
-			}
+			ws.onopen = () => ws.send('{"setID":"ddddddd","passwd":"123@Cuatro"}');
 			ws.onclose = function(){
 				//game.soket();
 				alert("Sin Conexion :( ");
