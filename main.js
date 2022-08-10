@@ -164,8 +164,7 @@ var objeto = [
 			// Escribe en el elementos los resultados
 
 			for (var i = 0; i < r.length; i++) {
-				let lok = '';
-				if (r[i].p==1) lok = ' - <i class="fas fa-lock fa-fw"></i>';
+				let lok = (r[i].p == 1) ? ' - <i class="fas fa-lock fa-fw"></i>' : '';
 				document.getElementById('r').innerHTML+=' <i class="border border-white rounded-circle fas fa-circle fa-fw" style="color: '+r[i].c+' "></i> <b>'+r[i].n+' </b> | <i class="fas fa-heartbeat fa-fw"></i>'+r[i].v+' <i class="fas fa-flag-checkered fa-fw"></i> '+r[i].m + lok +'<br>';
 			}
 			// ***** FIN Podio ***
