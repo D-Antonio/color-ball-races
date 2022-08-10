@@ -57,61 +57,66 @@
 			    display: none;
 			  }
 			}
+
+            img {
+                display: none;
+            }
 		</style>
 	</head>
-	<body >
+	<body>
+		<!-- Cargar imagenes para el juego-->
+		<img src="https://nwnw.000webhostapp.com/carreras/a.png" id="imga">
+		<img src="https://nwnw.000webhostapp.com/carreras/s.png" id="imgs">
+		<img src="https://nwnw.000webhostapp.com/carreras/d.png" id="imgd">
+		<img src="https://nwnw.000webhostapp.com/carreras/w.png" id="imgw">
+		<img src="https://nwnw.000webhostapp.com/carreras/x.png" id="imgx">
+		<img src="https://nwnw.000webhostapp.com/carreras/m.png" id="imgmm">
+		<img src="https://nwnw.000webhostapp.com/carreras/v.png" id="imgup">
+		<img src="https://nwnw.000webhostapp.com/carreras/o.png" id="imgoo">
+		<img src="https://cdn-icons-png.flaticon.com/512/980/980496.png" id="imgcc">
+		<img src="https://nwnw.000webhostapp.com/carreras/limo.png" id="imglimo">
+		<!--Fin Cargar imagenes del juego-->
 		<div class="mensaje"></div>
 		<div class="app">
-			<img src="https://nwnw.000webhostapp.com/carreras/a.png" id="imga" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/s.png" id="imgs" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/d.png" id="imgd" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/w.png" id="imgw" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/x.png" id="imgx" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/m.png" id="imgmm" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/v.png" id="imgup" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/o.png" id="imgoo" style="display: none;">
-				<img src="https://cdn-icons-png.flaticon.com/512/980/980496.png" id="imgcc" style="display: none;">
-				<img src="https://nwnw.000webhostapp.com/carreras/limo.png" id="imglimo" style="display: none;">
 			<div id="lobby">
 				<div class="p-2 justify-content-center">
 					<center>
 						<div class="rounded col-5 text-center">
-						<div class="card-header">
-						    <img src="https://jue-gos.000webhostapp.com/1597025659021.png" class="d-inline-block align-text-top" style="width: 30vh;">
-						  </div>
-						  <div class="card-body">
-						  	<div class="row">
-							    <input type="color" class="col-auto form-control-plaintext" style="width: 3vw; height: auto; color: #00000000; background: #00000000; border: 0" id="color"> - <input type="text" class="form-control col" id="name" placeholder="Nombre / Apodo">
-						    </div>
-						    <br>
-						    <a href="#" id="play" class="btn col-auto btn-sm" style="background-color: #FF0362; color: #fff">Jugar!</a>
-						    <br>
-						    <center>
-						    	
-						    	<script type="text/javascript">
-						    		/*document.getElementById('color').addEventListener("input", function(){
-										document.getElementById('color').style["background-color"] = document.getElementById('color').value;
-									}, false);*/
+							<div class="card-header">
+								<img src="https://jue-gos.000webhostapp.com/1597025659021.png" class="d-inline-block align-text-top" style="width: 30vh;">
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<input type="color" class="col-auto form-control-plaintext" style="width: 3vw; height: auto; color: #00000000; background: #00000000; border: 0" id="color"> - <input type="text" class="form-control col" id="name" placeholder="Nombre / Apodo">
+								</div>
+								<br>
+								<a href="#" id="play" class="btn col-auto btn-sm" style="background-color: #FF0362; color: #fff">Jugar!</a>
+								<br>
+								<center>
+									<script type="text/javascript">
+										/*document.getElementById('color').addEventListener("input", function(){
+											document.getElementById('color').style["background-color"] = document.getElementById('color').value;
+										}, false);*/
 
-									function generarLetra(){ 
-										let letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
-										let numero = (Math.random()*15).toFixed(0);
-										return letras[numero];
-									}
+										function generarLetra() {
+											let letras = ["a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+											let numero = (Math.random() * 15).toFixed(0);
+											return letras[numero];
+										}
 
-									var coolor = "";
-									for(var i=0;i<6;i++){
-										coolor = coolor + generarLetra() ;
-									}
+										var coolor = "";
+										for (var i = 0; i < 6; i++) {
+											coolor = coolor + generarLetra();
+										}
 
-									//document.getElementById('color').style["background-color"] = "#"+coolor;
-									document.getElementById('color').value = "#"+coolor;;
-						    	</script>
-						    </center>
-						  </div>
-						  <div class="card-footer text-muted">
-						    última actualización: 2 de jun 2022
-						  </div>
+										//document.getElementById('color').style["background-color"] = "#"+coolor;
+										document.getElementById('color').value = "#" + coolor;;
+									</script>
+								</center>
+							</div>
+							<div class="card-footer text-muted">
+								última actualización: 2 de jun 2022
+							</div>
 						</div>
 					</center>
 				</div>
@@ -126,56 +131,56 @@
 							<a class="nav-item text-white" onclick="launchFullScreen(document.documentElement);"><i class="fas fa-expand"></i></a>
 						</div>
 						<div class="col-4 text-center text-white">
-							
+
 						</div>
 						<div class="col-4 text-center text-white">
 							<div class="btn-group dropup">
-						  <a class="nav-item text-white" type="button" id="emoji"  data-bs-toggle="dropdown" aria-expanded="false">
-						    <i class="fas fa-icons"></i> 
-						  </a>
-						  <ul class="dropdown-menu bg-dark" aria-labelledby="emoji">
-						  	<div class="row justify-content-center text-center">
-							    <div class="col">
-							    	<a class="dropdown-item" onclick="msg('fa-angry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-angry"></i></a>
-							    </div>
-							    <div class="col">
-									<a class="dropdown-item" onclick="msg('fa-grin-squint-tears');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-squint-tears"></i></a>
-								</div>
+								<a class="nav-item text-white" type="button" id="emoji" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fas fa-icons"></i>
+								</a>
+								<ul class="dropdown-menu bg-dark" aria-labelledby="emoji">
+									<div class="row justify-content-center text-center">
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-angry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-angry"></i></a>
+										</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-grin-squint-tears');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-squint-tears"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-grin-tongue-squint');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-tongue-squint"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-grin-tongue-squint');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-tongue-squint"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-kiss-wink-heart');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-kiss-wink-heart"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-kiss-wink-heart');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-kiss-wink-heart"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-meh');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-meh');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-meh-blank');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh-blank"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-meh-blank');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh-blank"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-sad-cry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-sad-cry"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-sad-cry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-sad-cry"></i></a>
+										</div>
 
-								<div class="col">
-									<a class="dropdown-item" onclick="msg('fa-smile');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-smile"></i></a>
-								</div>
+										<div class="col">
+											<a class="dropdown-item" onclick="msg('fa-smile');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-smile"></i></a>
+										</div>
+									</div>
+								</ul>
 							</div>
-						  </ul>
-						</div>
 						</div>
 					</div>
-							<hr>
-						<small id="r">
+					<hr>
+					<small id="r">
 					</small>
-					
+
 				</div>
-				
+
 				<canvas id="pantalla" class="pantalla"></canvas>
 				<center>
 					<canvas id="canvas" style="background-color: #020123; width: auto; height: 100vh;display: block; position: all; size: 2;" width="350" height="350"></canvas>
@@ -190,6 +195,6 @@
 		<!--script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/objeto.js"></script-->
 		<script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/main.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-		
-</body>
+
+	</body>
 </html>

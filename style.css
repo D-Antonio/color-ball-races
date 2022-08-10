@@ -1,0 +1,13 @@
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #202830;
+}
+/*.pantalla{
+	display: none;
+}*/
+
+.mapa-none {  bottom: 20vh; width: 20vw; height: 20vw} 
+.mapa{ margin-right: auto; margin-left: auto; position: fixed; right: 1vh; text-align: center; color: #fff; border-radius: 0.2rem !important; line-height: 46px;}
+.pantalla{position: fixed;} 
