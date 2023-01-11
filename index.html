@@ -1,200 +1,104 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Carreras</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://nwnw.000webhostapp.com/carreras/jquery.min.js"></script>
-		<link href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" media="screen">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-		<script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/toastr.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://nwnw.000webhostapp.com/carreras/style.css">
-		     
-    	<style type="text/css">
-		    /* Agregaremos algo de estilo para visualizar el 
-			   elemento sobre el que vamos a realizar la prueba */
 
-			.app {
-			  /*olor: black;
-			  color: white;
-			  font-size: 2rem;
-			  padding: 40px;
-			  text-align: center;*/
-			}
+<head>
+	<meta charset="utf-8">
+	<title>Carreras</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="js/jquery.min.js"></script>
+	<link href="fontawesome/css/all.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<script type="text/javascript" src="js/toastr.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+</head>
 
-
-			/* Esta es la parte que nos interesa */
-			@media screen and (orientation: portrait) {
-			  /* Cubre toda la pantalla del dispositivo */
-			  .mensaje {
-			    position: fixed;
-			    margin: auto;
-			    left: 0;
-			    right: 0;
-			    top: 0;
-			    bottom: 0;
-			    
-			    /* Con esto ajustamos la posición del texto */
-			    display: flex;
-			    align-items: center;
-			    justify-content: center;
-			    
-			    /* Un color de fondo */
-			    
-			    background-color: white;
-			    /* Debemos superponerlo */
-			    z-index: 1000;
-			  }
-			  
-			  /* El texto que vamos a mostrar */
-			  .mensaje::before {
-			    content: "Por favor, coloca tu móvil en horizontal.";
-			    font-size: 2rem;
-			  }
-			  
-			  .app {
-			    display: none;
-			  }
-			}
-
-            img {
-                display: none;
-            }
-		</style>
-	</head>
-	<body>
-		<!-- Cargar imagenes para el juego-->
-		<img src="https://nwnw.000webhostapp.com/carreras/a.png" id="imga">
-		<img src="https://nwnw.000webhostapp.com/carreras/s.png" id="imgs">
-		<img src="https://nwnw.000webhostapp.com/carreras/d.png" id="imgd">
-		<img src="https://nwnw.000webhostapp.com/carreras/w.png" id="imgw">
-		<img src="https://nwnw.000webhostapp.com/carreras/x.png" id="imgx">
-		<img src="https://nwnw.000webhostapp.com/carreras/m.png" id="imgmm">
-		<img src="https://nwnw.000webhostapp.com/carreras/v.png" id="imgup">
-		<img src="https://nwnw.000webhostapp.com/carreras/o.png" id="imgoo">
-		<img src="https://cdn-icons-png.flaticon.com/512/980/980496.png" id="imgcc">
-		<img src="https://nwnw.000webhostapp.com/carreras/limo.png" id="imglimo">
-		<!--Fin Cargar imagenes del juego-->
-		<div class="mensaje"></div>
-		<div class="app">
-			<div id="lobby">
-				<div class="p-2 justify-content-center">
-					<center>
-						<div class="rounded col-5 text-center">
-							<div class="card-header">
-								<img src="https://jue-gos.000webhostapp.com/1597025659021.png" class="d-inline-block align-text-top" style="width: 30vh;">
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<input type="color" class="col-auto form-control-plaintext" style="width: 3vw; height: auto; color: #00000000; background: #00000000; border: 0" id="color"> - <input type="text" class="form-control col" id="name" placeholder="Nombre / Apodo">
-								</div>
-								<br>
-								<a href="#" id="play" class="btn col-auto btn-sm" style="background-color: #FF0362; color: #fff">Jugar!</a>
-								<br>
-								<center>
-									<script type="text/javascript">
-										/*document.getElementById('color').addEventListener("input", function(){
-											document.getElementById('color').style["background-color"] = document.getElementById('color').value;
-										}, false);*/
-
-										function generarLetra() {
-											let letras = ["a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-											let numero = (Math.random() * 15).toFixed(0);
-											return letras[numero];
-										}
-
-										var coolor = "";
-										for (var i = 0; i < 6; i++) {
-											coolor = coolor + generarLetra();
-										}
-
-										//document.getElementById('color').style["background-color"] = "#"+coolor;
-										document.getElementById('color').value = "#" + coolor;;
-									</script>
-								</center>
-							</div>
-							<div class="card-footer text-muted">
-								última actualización: 2 de jun 2022
-							</div>
+<body>
+	<div class="mensaje"></div>
+	<div class="app">
+		<div id="lobby">
+			<div class="p-2 justify-content-center">
+				<center>
+					<div class="rounded col-5 text-center">
+						<div class="card-header">
+							<img src="img/1597025659021.png" class="d-inline-block align-text-top" style="width: 30vh;">
 						</div>
-					</center>
-				</div>
-			</div>
-			<div id="game" style="display: none;">
-				<center style="width: 100vw; z-index: 2; position: fixed;">
-					<p class="text-white text-center" id="p" style="width: 50vh; background: #04040496;">Beta</p>
-				</center>
-				<div style="position: fixed; z-index: 2; left: 1vw; top: 1vh;color: #fff;">
-					<div class="row" style="width: 15vw;">
-						<div class="col-4 text-center">
-							<a class="nav-item text-white" onclick="launchFullScreen(document.documentElement);"><i class="fas fa-expand"></i></a>
-						</div>
-						<div class="col-4 text-center text-white">
-
-						</div>
-						<div class="col-4 text-center text-white">
-							<div class="btn-group dropup">
-								<a class="nav-item text-white" type="button" id="emoji" data-bs-toggle="dropdown" aria-expanded="false">
-									<i class="fas fa-icons"></i>
-								</a>
-								<ul class="dropdown-menu bg-dark" aria-labelledby="emoji">
-									<div class="row justify-content-center text-center">
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-angry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-angry"></i></a>
-										</div>
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-grin-squint-tears');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-squint-tears"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-grin-tongue-squint');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-grin-tongue-squint"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-kiss-wink-heart');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-kiss-wink-heart"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-meh');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-meh-blank');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-meh-blank"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-sad-cry');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-sad-cry"></i></a>
-										</div>
-
-										<div class="col">
-											<a class="dropdown-item" onclick="msg('fa-smile');" style="color: #e0ff00; font-size: 5vh;"><i class="fas fa-smile"></i></a>
-										</div>
-									</div>
-								</ul>
+						<div class="card-body">
+							<div class="row">
+								<input type="color" class="col-auto form-control-plaintext"
+									style="width: 3vw; height: auto; color: #00000000; background: #00000000; border: 0"
+									id="color"> - <input type="text" class="form-control col" id="name"
+									placeholder="Nombre / Apodo">
 							</div>
+							<br>
+							<a href="#" id="play" class="btn col-auto btn-sm"
+								style="background-color: #FF0362; color: #fff">Jugar!</a>
+							<br>
+							<center>
+								<script type="text/javascript">
+									/*document.getElementById('color').addEventListener("input", function(){
+										document.getElementById('color').style["background-color"] = document.getElementById('color').value;
+									}, false);*/
+
+									function generarLetra() {
+										let letras = ["a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+										let numero = (Math.random() * 15).toFixed(0);
+										return letras[numero];
+									}
+
+									var coolor = "";
+									for (var i = 0; i < 6; i++) {
+										coolor = coolor + generarLetra();
+									}
+
+									//document.getElementById('color').style["background-color"] = "#"+coolor;
+									document.getElementById('color').value = "#" + coolor;;
+								</script>
+							</center>
+						</div>
+						<div class="card-footer text-muted">
+							última actualización: 2 de jun 2022
 						</div>
 					</div>
-					<hr>
-					<small id="r">
-					</small>
-
-				</div>
-
-				<canvas id="pantalla" class="pantalla"></canvas>
-				<center>
-					<canvas id="canvas" style="background-color: #020123; width: auto; height: 100vh;display: block; position: all; size: 2;" width="350" height="350"></canvas>
 				</center>
-
-				<canvas id="fondo" style="background-image: url('https://nwnw.000webhostapp.com/carreras/1.png'); background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;" width="350" height="350"></canvas>
-				<canvas id="mapa" style=" background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;" width="350" height="350"></canvas>
 			</div>
 		</div>
+		<div id="game" style="display: none;">
+			<center style="width: 100vw; z-index: 2; position: fixed;">
+				<p class="text-white text-center" id="p" style="width: 50vh; background: #04040496;">Beta</p>
+			</center>
+			<div style="position: fixed; z-index: 2; left: 1vw; top: 1vh;color: #fff;">
+				<hr>
+				<small id="r">
+				</small>
 
-		<!--script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/bloques.js"></script-->
-		<!--script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/objeto.js"></script-->
-		<script type="text/javascript" src="https://nwnw.000webhostapp.com/carreras/main.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+			</div>
 
-	</body>
+			<canvas id="pantalla" class="pantalla"></canvas>
+			<center>
+				<canvas id="canvas"
+					style="background-color: #020123; width: auto; height: 100vh;display: block; position: all; size: 2;"
+					width="350" height="350"></canvas>
+			</center>
+
+			<canvas id="fondo"
+				style="background-image: url('img/1.png'); background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
+				width="350" height="350"></canvas>
+			<canvas id="mapa"
+				style=" background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
+				width="350" height="350"></canvas>
+		</div>
+	</div>
+
+	<!--script type="text/javascript" src="bloques.js"></script-->
+	<!--script type="text/javascript" src="objeto.js"></script-->
+	<script type="text/javascript" src="js/main.js"></script>
+	<js /https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+		</script>
+
+</body>
+
 </html>

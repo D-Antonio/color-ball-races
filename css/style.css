@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #202830;
+}
+/*.pantalla{
+	display: none;
+}*/
+
+.mapa-none {
+  bottom: 20vh;
+  width: 20vw;
+  height: 20vw;
+}
+.mapa {
+  margin-right: auto;
+  margin-left: auto;
+  position: fixed;
+  right: 1vh;
+  text-align: center;
+  color: #fff;
+  border-radius: 0.2rem !important;
+  line-height: 46px;
+}
+.pantalla {
+  position: fixed;
+}
+
+/* Agregaremos algo de estilo para visualizar el 
+			   elemento sobre el que vamos a realizar la prueba */
+
+.app {
+  /*olor: black;
+				color: white;
+				font-size: 2rem;
+				padding: 40px;
+				text-align: center;*/
+}
+
+/* Esta es la parte que nos interesa */
+@media screen and (orientation: portrait) {
+  /* Cubre toda la pantalla del dispositivo */
+  .mensaje {
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    /* Con esto ajustamos la posición del texto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Un color de fondo */
+
+    background-color: white;
+    /* Debemos superponerlo */
+    z-index: 1000;
+  }
+
+  /* El texto que vamos a mostrar */
+  .mensaje::before {
+    content: "Por favor, coloca tu móvil en horizontal.";
+    font-size: 2rem;
+  }
+
+  .app {
+    display: none;
+  }
+}
+
+img {
+  display: none;
+}
