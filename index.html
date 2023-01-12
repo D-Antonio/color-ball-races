@@ -5,7 +5,6 @@
 	<meta charset="utf-8">
 	<title>Carreras</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="js/jquery.min.js"></script>
 	<link href="fontawesome/css/all.min.css" rel="stylesheet" media="screen">
 	<link rel="stylesheet" type="text/css"
 		href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -23,7 +22,7 @@
 				<center>
 					<div class="rounded col-5 text-center">
 						<div class="card-header">
-							<img src="img/1597025659021.png" class="d-inline-block align-text-top" style="width: 30vh;">
+							<img src="img/logo.png" class="d-inline-block align-text-top" style="width: 30vh;">
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -54,7 +53,7 @@
 									}
 
 									//document.getElementById('color').style["background-color"] = "#"+coolor;
-									document.getElementById('color').value = "#" + coolor;;
+									this.color.value = "#" + coolor;;
 								</script>
 							</center>
 						</div>
@@ -70,6 +69,15 @@
 				<p class="text-white text-center" id="p" style="width: 50vh; background: #04040496;">Beta</p>
 			</center>
 			<div style="position: fixed; z-index: 2; left: 1vw; top: 1vh;color: #fff;">
+				<div class="row" style="width: 15vw;">
+					<div class="col-3 text-center">
+						<a class="nav-item text-white" onclick="launchFullScreen(document.documentElement);"><i
+								class="fas fa-expand"></i></a>
+					</div>
+					<div class="col-9 text-center text-white">
+						<small id="fps"></small>
+					</div>
+				</div>
 				<hr>
 				<small id="r">
 				</small>
@@ -84,13 +92,16 @@
 			</center>
 
 			<canvas id="fondo"
-				style="background-image: url('img/1.png'); background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
+				style="background-image: url('img/minimap.png'); background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
 				width="350" height="350"></canvas>
 			<canvas id="mapa"
 				style=" background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
 				width="350" height="350"></canvas>
 		</div>
 	</div>
+
+	<script src="js/index.js"></script>
+
 
 	<!--script type="text/javascript" src="bloques.js"></script-->
 	<!--script type="text/javascript" src="objeto.js"></script-->
