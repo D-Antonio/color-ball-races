@@ -1039,11 +1039,7 @@
     bw.src = "img/w.png";
     var bx = new Image();
     bx.src = "img/x.png";
-    pantalla.addEventListener("touchend", game.touchEnd, { passive: false });
-    pantalla.addEventListener("touchmove", game.touchMove, { passive: false });
-    pantalla.addEventListener("touchstart", game.touchStart, {
-      passive: false,
-    });
+    
     window.addEventListener("resize", game.pistaControles);
     bx.onload = function () {
       game.pistaControles();

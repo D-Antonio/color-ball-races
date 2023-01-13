@@ -1,4 +1,6 @@
 //(function () {
+    const $this = this;
+
     Item = function (name, details, action) {
         this.name = name;
         this.details = details;
@@ -60,12 +62,12 @@
             "Usala para teletrasportarte a un logar random del mapa!",
             function () {
                 let i = player[0].b + 11;
-                if (i > game.bloque.length - 1) i = i - game.bloque.length;
+                if (i > blockList.length - 1) i = i - blockList.length;
                 let cont = game.getNumRand(player[0].b + 1, i);
                 player[0].b = cont;
-                player[0].x = game.bloque[cont].x * 10 + (game.bloque[cont].w * 20) / 4;
+                player[0].x = blockList[cont].x * 10 + (blockList[cont].w * 20) / 4;
                 pX = w / 2 - player[0].x;
-                player[0].y = game.bloque[cont].y * 10 + (game.bloque[cont].h * 20) / 4;
+                player[0].y = blockList[cont].y * 10 + (blockList[cont].h * 20) / 4;
                 pY = h / 2 - player[0].y;
             },
         ),
@@ -77,14 +79,14 @@
     ];
 
     const ctx = {
-        pantalla: this.pantalla.getContext("2d"),
-        mapa: this.mapa.getContext("2d"),
-        fondo: this.fondo.getContext("2d"),
-        juego: this.canvas.getContext("2d"),
+        pantalla: $this.pantalla.getContext("2d"),
+        mapa: $this.mapa.getContext("2d"),
+        fondo: $this.fondo.getContext("2d"),
+        juego: $this.canvas.getContext("2d"),
     }
 
-    const w = this.canvas.width;
-    const h = this.canvas.height;
+    const w = $this.canvas.width;
+    const h = $this.canvas.height;
 
     var keydown = []
 
@@ -114,16 +116,23 @@
         run: img("img/run.png"),
     }
 
-    var localPlayers = []
-    var player =[
+    const div = 2 // no sé para qué es esta mondá, pero se usa para dividir :(, creo que es el tamaño de la bola jajaja
+    var $id = null;
+    var pX = w / 2;
+    var pY = h / 2;
+    var vX = 0;
+    var vY = 0;
+    var veloz = 0.05;
+    var localPlayers = null;
+    var players =[
         {
             bloque: 0, // b
             vida: 3, // v
-            name: this.name.value, // n
+            name: $this.name, // n
             item: -1, // o
             id: null, // i
             vuelta: 0, // m
-            color: this.color.value,
+            color: $this.color.value,
             preso: false, // p = 0
             x: 0,
             y: 0,
@@ -140,7 +149,14 @@
         this.c = [];
     }
 
-    const div = 2 // no sé para qué es esta mondá, pero se usa para dividir :(, creo que es el tamaño de la bola jajaja
+    const colorBloqueList = [
+        "#00000000",
+        "#00000000",
+        "#09ff00",
+        "#ff0000",
+        "#ff9800",
+        "#ffffff"
+    ]
 
     Bloque.prototype = {
         tocar: function (x, y) {
@@ -156,214 +172,214 @@
 
     const blockList = [
         new Bloque(0, 0, w / 20, h / 20, 0),
-        new Bloque((w / 20) * 1, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 1, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 2, w / 20, h / 20, 2), //vida
-        new Bloque((w / 20) * 2, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 4, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 8, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 1, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 10, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 0, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 11, (h / 20) * 1, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 5, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 8, w / 20, h / 20, 4), //o9bjeto
-        new Bloque((w / 20) * 11, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 11, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 12, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 11, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 10, w / 20, h / 20, 5), //player[0].p
-        new Bloque((w / 20) * 13, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 5, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 2, w / 20, h / 20, 2), //vida
-        new Bloque((w / 20) * 13, (h / 20) * 1, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 14, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 0, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 1, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 19, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 5, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 9, w / 20, h / 20, 4), //objeto
-        new Bloque((w / 20) * 19, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 6, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 15, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 11, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 14, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 14, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 12, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 15, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 10, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 14, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 11, w / 20, h / 20, 2), //vida
-        new Bloque((w / 20) * 9, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 8, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 6, w / 20, h / 20, 3), //objeto
-        new Bloque((w / 20) * 2, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 10, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 10, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 2, (h / 20) * 11, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 14, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 16, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 2, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 17, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 6, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 8, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 10, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 12, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 14, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 15, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 17, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 17, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 18, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 19, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 18, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 17, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 16, (h / 20) * 19, w / 20, h / 20, 2), // vida
-        new Bloque((w / 20) * 15, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 14, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 13, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 12, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 11, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 10, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 9, (h / 20) * 19, w / 20, h / 20, 4), //objeto
-        new Bloque((w / 20) * 8, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 7, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 6, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 5, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 4, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 3, (h / 20) * 19, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 2, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 1, (h / 20) * 19, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 19, w / 20, h / 20, 5), //player[0].p
-        new Bloque((w / 20) * 0, (h / 20) * 18, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 17, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 16, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 15, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 14, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 13, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 12, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 11, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 10, w / 20, h / 20, 2), //vida
-        new Bloque((w / 20) * 0, (h / 20) * 9, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 8, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 7, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 6, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 5, w / 20, h / 20, 3), //trampa
-        new Bloque((w / 20) * 0, (h / 20) * 4, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 3, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 2, w / 20, h / 20, 1),
-        new Bloque((w / 20) * 0, (h / 20) * 1, w / 20, h / 20, 1),
+        new Bloque((w / 20) * 1, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 1, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 8, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 1, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 10, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 1, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 5, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 11, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 12, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 11, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 5, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 2, w / 20, h / 20, 0), 
+        new Bloque((w / 20) * 13, (h / 20) * 1, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 14, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 0, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 1, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 5, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 11, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 14, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 14, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 12, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 10, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 14, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 11, w / 20, h / 20, 0), 
+        new Bloque((w / 20) * 9, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 8, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 10, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 11, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 14, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 16, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 8, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 10, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 12, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 14, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 18, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 19, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 18, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 17, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 16, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 15, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 14, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 13, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 12, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 11, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 10, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 9, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 8, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 7, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 6, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 5, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 4, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 3, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 2, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 1, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 19, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 18, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 17, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 16, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 15, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 14, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 13, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 12, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 11, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 10, w / 20, h / 20, 0), 
+        new Bloque((w / 20) * 0, (h / 20) * 9, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 8, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 7, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 6, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 5, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 4, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 3, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 2, w / 20, h / 20, 0),
+        new Bloque((w / 20) * 0, (h / 20) * 1, w / 20, h / 20, 0),
     ]
 
-    Btn = function (x, y, w, h, img = null) {
+    BtnController = function (x, y, w, h, img) {
         this.h = Math.round(h);
         this.w = Math.round(w);
         this.x = Math.round(x);
@@ -371,81 +387,53 @@
         this.img = img;
     }
 
-    Btn.prototype = {
+    BtnController.prototype = {
         containsPoint: function (x, y) {
           return ( x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) ? false : true;
         },
     }
 
-    const btnList = [
-        new Btn(
-            this.pantalla.width * 0.08 - this.pantalla.height / 9,
-            this.pantalla.height / 2 + this.pantalla.height / 9 - this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            imageList.btnLeft
-        ),
-        new Btn(
-            this.pantalla.width * 0.08 + this.pantalla.height / 9,
-            this.pantalla.height / 2 + this.pantalla.height / 9 - this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            imageList.btnRight
-        ),
-        new Btn(
-            this.pantalla.width * 0.67,
-            this.pantalla.height / 2 + this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            imageList.btnDown
-        ),
-        new Btn(
-            this.pantalla.width * 0.67,
-            this.pantalla.height / 2 + this.pantalla.height / 9 - (this.pantalla.height / 9) * 2,
-            this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            imageList.btnUp
-        ),
-        new Btn(
-            this.pantalla.width * 0.67 - (this.pantalla.height / 9) * 2,
-            this.pantalla.height / 2 + this.pantalla.height / 9 - this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            this.pantalla.height / 9,
-            imageList.run
-        ),
-    ]
+    const getBtnList = function(){
+        return [
+            new BtnController(
+                $this.pantalla.width * 0.08 - $this.pantalla.height / 9,
+                $this.pantalla.height / 2 + $this.pantalla.height / 9 - $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                imageList.btnLeft
+            ),
+            new BtnController(
+                $this.pantalla.width * 0.08 + $this.pantalla.height / 9,
+                $this.pantalla.height / 2 + $this.pantalla.height / 9 - $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                imageList.btnRight
+            ),
+            new BtnController(
+                $this.pantalla.width * 0.67,
+                $this.pantalla.height / 2 + $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                imageList.btnDown
+            ),
+            new BtnController(
+                $this.pantalla.width * 0.67,
+                $this.pantalla.height / 2 + $this.pantalla.height / 9 - ($this.pantalla.height / 9) * 2,
+                $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                imageList.btnUp
+            ),
+            new BtnController(
+                $this.pantalla.width * 0.67 - ($this.pantalla.height / 9) * 2,
+                $this.pantalla.height / 2 + $this.pantalla.height / 9 - $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                $this.pantalla.height / 9,
+                imageList.run
+            ),
+        ]
+    }
 
-    const parseJSON = function( data ) {
-		// Attempt to parse using the native JSON parser first
-		if ( window.JSON && window.JSON.parse ) {
-			return window.JSON.parse( data );
-		}
-	
-		if ( data === null ) {
-			return data;
-		}
-	
-		if ( typeof data === "string" ) {
-	
-			// Make sure leading/trailing whitespace is removed (IE can't handle it)
-			data = jQuery.trim( data );
-	
-			if ( data ) {
-				// Make sure the incoming data is actual JSON
-				// Logic borrowed from http://json.org/json2.js
-				if ( rvalidchars.test( data.replace( rvalidescape, "@" )
-					.replace( rvalidtokens, "]" )
-					.replace( rvalidbraces, "")) ) {
-	
-					return ( new Function( "return " + data ) )();
-				}
-			}
-		}
-	
-		console.log( "Invalid JSON: " + data );
-	}
-
-    const controles = {
+    const controller = {
         launchFullScreen: function(element) {
             if (element.requestFullScreen) {
                 element.requestFullScreen();
@@ -466,28 +454,198 @@
             }
         },
 
-        keyboard: function() {
-            window.addEventListener(
-                "keydown",
-                function (e) {
-                    keydown[e.keyCode] = true;
-                },
-                false
-            );
-            window.addEventListener(
-                "keyup",
-                function (e) {
-                    keydown[e.keyCode] = false;
-                },
-                false
-            );
+        useKeyboard: function() {
+            window.addEventListener( "keydown", function (e) {
+                keydown[e.keyCode] = true;
+            }, false );
+
+            window.addEventListener( "keyup", function (e) {
+                keydown[e.keyCode] = false;
+            }, false );
         },
 
-        touch
+        useTouch: function(){
+            $this.pantalla.addEventListener("touchend", game.touchEnd, { passive: false });
+            $this.pantalla.addEventListener("touchmove", game.touchMove, { passive: false });
+            $this.pantalla.addEventListener("touchstart", game.touchStart, { passive: false,});
+            window.addEventListener("resize", render.touchController);
+            render.touchController()
+        },
+
+        index: function(){
+            if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent))
+                this.useTouch()
+            else 
+                this.useKeyboard()
+        }
+    }
+
+    var btnList = null;
+
+    const round = function (num) {
+        var m = Number((Math.abs(num) * 100).toPrecision(15));
+        return Math.abs((Math.round(m) / 100) * Math.sign(num));
+    }
+
+    const render = {
+        touchControlle () {
+            $this.pantalla.width = $this.pantalla.width
+            $this.pantalla.width = document.documentElement.clientWidth * 1.3;
+            $this.pantalla.height = document.documentElement.clientHeight * 1.3;
+            btnList = getBtnList()
+            ctx.pantalla.beginPath()
+            btnList.forEach(e => ctx.pantalla.drawImage( e.img, e.x, e.y, e.w, e.h));
+            ctx.pantalla.closePath()
+        },
+
+        playersMapa (p) {
+            console.log(p.bloque)
+            ctx.mapa.beginPath();
+            ctx.mapa.lineWidth = 1;
+            ctx.mapa.strokeStyle = "#ffffff";
+            ctx.mapa.arc(
+                blockList[p.bloque].x + w / 20 / 2,
+                blockList[p.bloque].y + h / 20 / 2,
+                round(h / 20 / div - h / 20 / 4 / 2),
+                0,
+                Math.PI * 2,
+                true
+            );
+            ctx.mapa.fillStyle = p.color;
+            ctx.mapa.fill(); //
+            ctx.mapa.stroke();
+            ctx.mapa.closePath();
+        },
+
+        players () {
+            ctx.juego.lineWidth = h * 0.009;
+            ctx.juego.strokeStyle = "#ffffff";
+            ctx.juego.font = h * 0.05 + "px Chunk";
+            ctx.juego.textAlign = "center";
+            players.forEach(player => {
+                this.playersMapa(player)
+
+                ctx.juego.fillStyle = "white";
+                ctx.juego.beginPath();
+                ctx.juego.fillText(
+                    player.name,
+                    player.x + pX,
+                    pY + player.y - h * 0.045
+                );
+                ctx.juego.arc(
+                    player.x + pX,
+                    pY + player.y,
+                    round(h * 0.025),
+                    0,
+                    Math.PI * 2,
+                    true
+                );
+                ctx.juego.fillStyle = player.color; //+'a6';
+                ctx.juego.fill(); //
+                ctx.juego.stroke();
+                ctx.juego.closePath();
+            });
+        },
+
+        bloquesMapa () {
+            $this.fondo.width = $this.fondo.width
+            ctx.fondo.beginPath();
+            blockList.forEach( e => {
+                console.log(e.c.length)
+                if(e.c.length > 0){
+                    ctx.fondo.fillStyle = colorBloqueList[e.t]
+                    ctx.fondo.rect(e.x + 1.5, e.y + 1.5, e.w - 4, e.h - 4);
+                    ctx.fondo.fill();
+                }
+            })
+            ctx.fondo.closePath();
+        },
+
+        bloques () {
+            ctx.juego.beginPath()
+            ctx.juego.lineWidth = h * 0.02;
+            ctx.juego.strokeStyle = "#42dfb0";
+            for (let cont = 0; cont < 5; cont++) {
+                const result = players[0].bloque - 2 + cont;
+                const i = ( result < 0) ? (blockList.length) + result: result
+                const b = blockList[i]
+                ctx.juego.rect( (b.x * 20) / div + pX, (b.y * 20) / div + pY, (b.w * 20) / div, (b.h * 20) / div);
+                b.c.forEach(e =>{
+                    ctx.juego.drawImage( e.img, e.x, e.y, e.w, e.h)
+                    this.bloquesMapa(e)
+                });
+            }
+            ctx.juego.fillStyle = "#061618";
+            ctx.juego.fill();
+            ctx.juego.stroke();
+            ctx.juego.closePath();
+        },
+
+        juego: function() {
+            $this.canvas.width = $this.canvas.width
+            this.bloques()
+            this.players()
+        }
+    }
+
+    const updatePlayers = function(objeto){
+        localPlayers = []
+        let existe = false
+
+        let data = {
+            bloque: parseInt(objeto.bloque), 
+            vida: parseInt(objeto.vida), 
+            name: objeto.name, 
+            item: parseInt(objeto.item), 
+            id: parseInt(objeto.id), 
+            vuelta: parseInt(objeto.vuelta), 
+            color: objeto.color,
+            preso: parseInt(objeto.preso), 
+            x: parseInt(objeto.x),
+            y: parseInt(objeto.y),
+        }
+
+        players.forEach(player => {
+            localPlayers.push(player)
+            if(player.id == objeto.sID && player.id != $id){
+                player = data
+                existe = true
+            }
+        });
+
+        if (existe == false && objeto.auth != "ok" && parseInt(objeto.sID) != $id) players.push(data)
+    }
+
+    const runSoket = function(){
+        ws = new WebSocket("ws://achex.ca:4010");
+
+        ws.onopen = function () {
+            ws.send('{"setID":"ball","passwd":"123@Cuatro"}');
+        };
+
+        ws.onclose = function () {
+            //game.soket();
+            alert("Sin Conexion :( ");
+        };
+
+        ws.onmessage = function (e) {
+            let datos = e.data;
+            let objeto =  window.JSON.parse(datos);
+            if ($id == null) {
+                $id = objeto.SID;
+                players[0].id = $id
+            } else {
+                updatePlayers(objeto)
+            }
+        };
     }
 
     const ball = {
 
     }
+
+    $this.play.onclick = (function () {
+        game.start();
+    });
 
 //})();
