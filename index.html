@@ -17,7 +17,7 @@
 <body>
 	<div class="mensaje"></div>
 	<div class="app">
-		<div id="lobby" style="display: none;">
+		<div id="e_lobby" style="display: none;">
 			<div class="p-2 justify-content-center">
 				<center>
 					<div class="rounded col-5 text-center">
@@ -28,11 +28,11 @@
 							<div class="row">
 								<input type="color" class="col-auto form-control-plaintext"
 									style="width: 3vw; height: auto; color: #00000000; background: #00000000; border: 0"
-									id="color"> - <input type="text" class="form-control col" id="name"
-									placeholder="Nombre / Apodo">
+									id="e_color"> - <input type="text" class="form-control col" id="e_name"
+									placeholder="Nombre / Apodo" value="sdsf">
 							</div>
 							<br>
-							<a href="#" id="play" class="btn col-auto btn-sm"
+							<a href="#" id="e_play" class="btn col-auto btn-sm"
 								style="background-color: #FF0362; color: #fff">Jugar!</a>
 							<br>
 							<center>
@@ -47,13 +47,14 @@
 										return letras[numero];
 									}
 
-									var coolor = "";
+									var color = "";
 									for (var i = 0; i < 6; i++) {
-										coolor = coolor + generarLetra();
+										color = color + generarLetra();
 									}
 
-									//document.getElementById('color').style["background-color"] = "#"+coolor;
-									this.color.value = "#" + coolor;;
+									//document.getElementById('color').style["background-color"] = "#"+color;
+									this.e_color.value = "#" + color;
+									this.e_name.value = generarLetra() + generarLetra() + generarLetra()
 								</script>
 							</center>
 						</div>
@@ -64,37 +65,40 @@
 				</center>
 			</div>
 		</div>
-		<div id="game" style="">
+		<div id="e_game" style="">
 			<center style="width: 100vw; z-index: 2; position: fixed;">
-				<p class="text-white text-center" id="p" style="width: 50vh; background: #04040496;">Beta</p>
+				<p class="text-white text-center" id="e_p" style="width: 50vh; background: #04040496;">
+					Beta
+				</p>
 			</center>
 			<div style="position: fixed; z-index: 2; left: 1vw; top: 1vh;color: #fff;">
 				<div class="row" style="width: 15vw;">
 					<div class="col-3 text-center">
-						<a class="nav-item text-white" onclick="launchFullScreen(document.documentElement);"><i
-								class="fas fa-expand"></i></a>
+						<a class="nav-item text-white" onclick="launchFullScreen(document.documentElement);">
+							<i class="fas fa-expand"></i>
+						</a>
 					</div>
 					<div class="col-9 text-center text-white">
-						<small id="fps"></small>
+						<small id="e_fps">0 FPS</small>
 					</div>
 				</div>
 				<hr>
-				<small id="r">
+				<small id="e_r">
 				</small>
 
 			</div>
 
-			<canvas id="pantalla" class="pantalla"></canvas>
+			<canvas id="e_pantalla" class="pantalla"></canvas>
 			<center>
-				<canvas id="canvas"
+				<canvas id="e_canvas"
 					style="background-color: #020123; width: auto; height: 100vh;display: block; position: all; size: 2;"
 					width="350" height="350"></canvas>
 			</center>
 
-			<canvas id="fondo"
+			<canvas id="e_fondo"
 				style="background-image: url('img/minimap.png'); background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
 				width="350" height="350"></canvas>
-			<canvas id="mapa"
+			<canvas id="e_mapa"
 				style=" background-size: 100% 100%; position: fixed; z-index: 2; left: 79vw; top: 1px;  width: 20vw; height: 20vw;"
 				width="350" height="350"></canvas>
 		</div>
